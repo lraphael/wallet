@@ -75,12 +75,6 @@ jobs:
       - name: Build app
         working-directory: ./desktop-app
         run: npm run build:electron
-        env:
-          CSC_LINK: ${{ secrets.CSC_LINK }}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-          CI: true
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
 
       - uses: actions/upload-artifact@27121b0bdffd731efa15d66772be8dc71245d074
         with:
