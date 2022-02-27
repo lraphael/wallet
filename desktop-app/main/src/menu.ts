@@ -1,4 +1,4 @@
-import { BrowserWindow, Menu, MenuItemConstructorOptions, shell } from 'electron'
+import { BrowserWindow, Menu, MenuItemConstructorOptions, shell, app } from 'electron'
 
 interface DarwinMenuItemConstructorOptions extends MenuItemConstructorOptions {
   selector?: string
@@ -54,9 +54,20 @@ export default class MenuBuilder {
           click: async () => {
             await shell.openExternal('https://play.google.com/store/apps/details?id=com.defichain.app')
           }
-        }
+        },
+        { type: 'separator' },
+        { label: 'Quit', accelerator: 'Command+Q', click: function () { app.quit() } }
       ]
     }
-    return [subMenuAbout, subMenuHelp]
+
+    const subMenuEdit: DarwinMenuItemConstructorOptions = {
+      label: 'Edit',
+      submenu: [
+        { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+        { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+        { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' }
+      ]
+    }
+    return [subMenuAbout, subMenuEdit, subMenuHelp]
   }
 }
