@@ -1,29 +1,29 @@
-name: Expo
+# name: Expo
 
-on:
-  push:
-    branches: [ main ]
+# on:
+#   push:
+#     branches: [ main ]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: true
+# concurrency:
+#   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+#   cancel-in-progress: true
 
-jobs:
-  publish:
-    name: Publish
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
-      - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
-        with:
-          node-version: 16
+# jobs:
+#   publish:
+#     name: Publish
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
+#       - uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
+#         with:
+#           node-version: 16
 
-      - uses: expo/expo-github-action@d4175ed947598c22308599f9cb07490458536a7c
-        with:
-          expo-version: 4.x
-          expo-cache: true
-          packager: npm
-          token: ${{ secrets.EXPO_TOKEN }}
+#       - uses: expo/expo-github-action@d4175ed947598c22308599f9cb07490458536a7c
+#         with:
+#           expo-version: 4.x
+#           expo-cache: true
+#           packager: npm
+#           token: ${{ secrets.EXPO_TOKEN }}
 
-      - run: npm ci
-      - run: expo publish --release-channel=main
+#       - run: npm ci
+#       - run: expo publish --release-channel=main
