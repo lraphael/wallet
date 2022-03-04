@@ -17,6 +17,7 @@ exports[`ButtonGroup component should match snapshot with 2 buttons 1`] = `
       },
     ]
   }
+  testID="foo"
 >
   <View
     accessible={true}
@@ -36,6 +37,7 @@ exports[`ButtonGroup component should match snapshot with 2 buttons 1`] = `
         "borderTopLeftRadius": 16,
         "borderTopRightRadius": 16,
         "opacity": 1,
+        "overflowWrap": "break-word",
         "paddingBottom": 8,
         "paddingLeft": 12,
         "paddingRight": 12,
@@ -43,6 +45,7 @@ exports[`ButtonGroup component should match snapshot with 2 buttons 1`] = `
         "width": "33.33%",
       }
     }
+    testID="foo_ALL_PAIRS_active"
   >
     <Text
       style={
@@ -56,7 +59,9 @@ exports[`ButtonGroup component should match snapshot with 2 buttons 1`] = `
           Array [
             Object {
               "fontFamily": "MediumFont",
+              "fontSize": 14,
               "fontWeight": "500",
+              "lineHeight": 20,
               "textAlign": "center",
             },
             Object {
@@ -86,6 +91,7 @@ exports[`ButtonGroup component should match snapshot with 2 buttons 1`] = `
         "borderTopLeftRadius": 16,
         "borderTopRightRadius": 16,
         "opacity": 1,
+        "overflowWrap": "break-word",
         "paddingBottom": 8,
         "paddingLeft": 12,
         "paddingRight": 12,
@@ -93,6 +99,7 @@ exports[`ButtonGroup component should match snapshot with 2 buttons 1`] = `
         "width": "33.33%",
       }
     }
+    testID="foo_DFI_PAIRS"
   >
     <Text
       style={
@@ -106,7 +113,9 @@ exports[`ButtonGroup component should match snapshot with 2 buttons 1`] = `
           Array [
             Object {
               "fontFamily": "MediumFont",
+              "fontSize": 14,
               "fontWeight": "500",
+              "lineHeight": 20,
               "textAlign": "center",
             },
             Object {
@@ -136,6 +145,7 @@ exports[`ButtonGroup component should match snapshot with 2 buttons 1`] = `
         "borderTopLeftRadius": 16,
         "borderTopRightRadius": 16,
         "opacity": 1,
+        "overflowWrap": "break-word",
         "paddingBottom": 8,
         "paddingLeft": 12,
         "paddingRight": 12,
@@ -143,6 +153,7 @@ exports[`ButtonGroup component should match snapshot with 2 buttons 1`] = `
         "width": "33.33%",
       }
     }
+    testID="foo_DUSD_PAIRS"
   >
     <Text
       style={
@@ -156,7 +167,9 @@ exports[`ButtonGroup component should match snapshot with 2 buttons 1`] = `
           Array [
             Object {
               "fontFamily": "MediumFont",
+              "fontSize": 14,
               "fontWeight": "500",
+              "lineHeight": 20,
               "textAlign": "center",
             },
             Object {
