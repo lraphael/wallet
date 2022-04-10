@@ -15,6 +15,7 @@ import { useState } from 'react'
 interface TotalPortfolioProps {
   totalAvailableUSDValue: BigNumber
   totalLockedUSDValue: BigNumber
+  totalLoansUSDValue: BigNumber
   onToggleDisplayBalances: () => Promise<void>
   isBalancesDisplayed: boolean
 }
@@ -28,7 +29,7 @@ export function TotalPortfolio (props: TotalPortfolioProps): JSX.Element {
     <ThemedView
       light={tailwind('bg-white')}
       dark={tailwind('bg-gray-800')}
-      style={tailwind('mx-4 my-4 p-4 rounded-lg')}
+      style={tailwind('m-4 mb-2 p-4 rounded-lg')}
       testID='total_portfolio_card'
     >
       <View style={tailwind('flex flex-row justify-between items-center w-full')}>
@@ -56,7 +57,7 @@ export function TotalPortfolio (props: TotalPortfolioProps): JSX.Element {
                         value={value}
                       />}
                     thousandSeparator
-                    value={getUSDPrecisedPrice(new BigNumber(props.totalAvailableUSDValue).plus(props.totalLockedUSDValue))}
+                    value={getUSDPrecisedPrice(BigNumber.max(0, new BigNumber(props.totalAvailableUSDValue).plus(props.totalLockedUSDValue).minus(props.totalLoansUSDValue)))}
                   />
                   <TouchableOpacity
                     onPress={() => setIsExpanded(!isExpanded)}
@@ -77,18 +78,18 @@ export function TotalPortfolio (props: TotalPortfolioProps): JSX.Element {
                 <View style={tailwind('mt-1')}>
                   <TextSkeletonLoader
                     viewBoxWidth='260'
-                    viewBoxHeight='28'
+                    viewBoxHeight='34'
                     textWidth='180'
                     textHeight='23'
+                    textVerticalOffset='4'
                     iContentLoaderProps={{
-                      height: '28',
+                      height: '34',
                       testID: 'total_portfolio_skeleton_loader'
                     }}
                   />
                 </View>
               )
-          }
-
+            }
         </View>
         <ThemedTouchableOpacity
           testID='toggle_balance'
@@ -108,33 +109,46 @@ export function TotalPortfolio (props: TotalPortfolioProps): JSX.Element {
         </ThemedTouchableOpacity>
       </View>
       {
-      isExpanded &&
-        <ThemedView
-          style={tailwind('mb-2 mt-2 border-t')}
-          light={tailwind('border-gray-100')}
-          dark={tailwind('border-gray-700')}
-        >
-          <View style={tailwind('mt-2')}>
+        isExpanded &&
+          <ThemedView
+            style={tailwind('mb-2 mt-2 border-t')}
+            light={tailwind('border-gray-100')}
+            dark={tailwind('border-gray-700')}
+          >
+            <View style={tailwind('mt-2')}>
+              <USDValueRow
+                testId='total_available_usd_amount'
+                isLoading={!hasFetchedToken}
+                label={translate('screens/BalancesScreen', 'available')}
+                value={props.totalAvailableUSDValue}
+                isAddition
+              />
+            </View>
             <USDValueRow
-              testId='total_available_usd_amount'
-              isLoading={!hasFetchedToken}
-              label={translate('screens/BalancesScreen', 'available')}
-              value={props.totalAvailableUSDValue}
+              testId='total_locked_usd_amount'
+              isLoading={!hasFetchedVaultsData}
+              label={translate('screens/BalancesScreen', 'locked in vault(s)')}
+              value={props.totalLockedUSDValue}
+              isAddition
             />
-          </View>
-          <USDValueRow
-            testId='total_locked_usd_amount'
-            isLoading={!hasFetchedVaultsData}
-            label={translate('screens/BalancesScreen', 'locked in vault(s)')}
-            value={props.totalLockedUSDValue}
-          />
-        </ThemedView>
+            {
+              props.totalLoansUSDValue.gt(0) && (
+                <USDValueRow
+                  testId='outstanding_loans_amount'
+                  isLoading={!hasFetchedVaultsData}
+                  label={translate('screens/BalancesScreen', 'loans')}
+                  value={props.totalLoansUSDValue}
+                  isAddition={false}
+                />
+              )
+            }
+          </ThemedView>
       }
     </ThemedView>
   )
 }
 
-function USDValueRow (props: {isLoading: boolean, testId: string, value: BigNumber, label: string }): JSX.Element {
+function USDValueRow (props: { isLoading: boolean, testId: string, value: BigNumber, label: string, isAddition: boolean }): JSX.Element {
   if (props.isLoading) {
     return (
       <View style={tailwind('mt-1')}>
@@ -151,6 +165,12 @@ function USDValueRow (props: {isLoading: boolean, testId: string, value: BigNumb
   }
   return (
     <View style={tailwind('flex flex-row justify-start items-center w-full')}>
+      <ThemedText
+        light={tailwind(props.isAddition ? 'text-gray-500' : 'text-error-500')}
+        dark={tailwind(props.isAddition ? 'text-gray-400' : 'text-error-300')} style={tailwind('mr-1 w-2')}
+      >
+        {props.isAddition ? '+' : '-'}
+      </ThemedText>
       <NumberFormat
         displayType='text'
         prefix='$'

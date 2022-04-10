@@ -29,14 +29,18 @@ describe('DFI Total Portfolio Card', () => {
         }].map(setTokenSymbol),
         allTokens: {},
         poolpairs: [],
+        swappableTokens: {},
         hasFetchedPoolpairData: false,
-        hasFetchedToken: true
+        hasFetchedToken: true,
+        hasFetchedSwappableTokens: false
       },
       loans: {
         vaults: [],
         collateralTokens: [],
+        loanPaymentTokenActivePrices: {},
         hasFetchedLoansData: true,
         hasFetchedVaultsData: true,
+        hasFetchedLoanSchemes: true,
         loanSchemes: [],
         loanTokens: []
       }
@@ -52,6 +56,7 @@ describe('DFI Total Portfolio Card', () => {
     const component = (
       <Provider store={store}>
         <TotalPortfolio
+          totalLoansUSDValue={new BigNumber(100)}
           totalAvailableUSDValue={new BigNumber(1000)}
           totalLockedUSDValue={new BigNumber(300)}
           onToggleDisplayBalances={jest.fn()}
